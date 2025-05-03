@@ -1,59 +1,53 @@
-# PodcastLibrary
+# Kids' Podcast Library
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.10.
+A tablet-friendly web application for managing and playing podcasts for children. The interface is designed to be simple, intuitive, and easy to use on touch devices.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Clean, tablet-optimized interface
+- Large touch targets for easy navigation
+- Simple podcast browsing and playback
+- Responsive design that works on various screen sizes
+- Configurable podcast feeds
 
-```bash
-ng serve
-```
+## Setup
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Code scaffolding
+2. Configure your podcast feeds:
+   - Edit `src/assets/podcast-config.json` to add your podcast feeds
+   - Add podcast cover images to `src/assets/images/`
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+3. Start the development server:
+   ```bash
+   ng serve
+   ```
 
-```bash
-ng generate component component-name
-```
+4. Open your browser and navigate to `http://localhost:4200`
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Configuration
 
-```bash
-ng generate --help
-```
+The podcast feeds are configured in `src/assets/podcast-config.json`. Each podcast entry should include:
 
-## Building
+- `id`: Unique identifier for the podcast
+- `title`: Podcast title
+- `description`: Brief description of the podcast
+- `imageUrl`: Path to the podcast cover image
+- `feedUrl`: URL of the podcast RSS feed
+- `episodes`: Array of episodes (will be populated from the feed)
 
-To build the project run:
+## Development
 
-```bash
-ng build
-```
+- Run `ng serve` for a dev server
+- Run `ng build` to build the project
+- Run `ng test` to execute the unit tests
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Technologies Used
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular
+- TypeScript
+- SCSS
+- HTML5 Audio API 
