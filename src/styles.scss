@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+
+.podcast-image {
+  border: none !important;
+  background: #0a1a33 !important;
+  width: 100% !important;
+  height: 200px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 8px 8px 0 0 !important;
+  margin: 0 !important;
+}
+
+.podcast-card {
+  transition: background 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.podcast-card:hover {
+  background: #06204d !important;
+  border-color: #C8102E !important;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18) !important;
+}
+
+.podcast-card:hover .podcast-info p {
+  color: #fff !important;
+}
+
+.podcast-card:hover .podcast-info h2 {
+  color: #fff !important;
+}

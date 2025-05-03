@@ -1,0 +1,60 @@
+<div class="podcast-list" *ngIf="!selectedPodcast">
+  <h1>Lincon's Podcasts</h1>
+  
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading podcasts...</p>
+  </div>
+  
+  <div class="error" *ngIf="error">
+    <p>{{ error }}</p>
+    <button class="refresh-button" (click)="retryLoad()">Refresh</button>
+  </div>
+  
+  <div class="podcasts" *ngIf="!isLoading && !error">
+    <div class="podcast-card" *ngFor="let podcast of podcasts" (click)="selectPodcast(podcast)">
+      <img [src]="podcast.imageUrl || 'https://via.placeholder.com/200x200?text=No+Image'" [alt]="podcast.title" class="podcast-image">
+      <div class="podcast-info">
+        <h2>{{ podcast.title }}</h2>
+        <p>{{ podcast.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="podcast-detail" *ngIf="selectedPodcast">
+  <div class="podcast-header">
+    <button class="back-button" (click)="goBack()">← Back to Podcasts</button>
+    <img [src]="selectedPodcast.imageUrl" [alt]="selectedPodcast.title" class="podcast-image">
+    <h1>{{ selectedPodcast.title }}</h1>
+    <p>{{ selectedPodcast.description }}</p>
+  </div>
+  
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading episodes...</p>
+  </div>
+  
+  <div class="error" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+  
+  <div class="episodes" *ngIf="!isLoading && !error">
+    <div class="episode-card" *ngFor="let episode of episodes">
+      <div class="episode-image">
+        <img [src]="getImageUrl(episode)" [alt]="episode.title">
+      </div>
+      <div class="episode-info">
+        <h3>{{ episode.title }}</h3>
+        <p class="episode-description">{{ episode.description || 'No description available.' }}</p>
+        <div class="episode-meta">
+          <span class="date">{{ episode.pubDate ? episode.pubDate.toString() : '' }}</span>
+          <span class="duration" *ngIf="episode.duration">{{ episode.duration.toString() }}</span>
+        </div>
+        <button class="play-button" (click)="playEpisode(episode)">
+          <span *ngIf="(currentEpisode$ | async)?.id === episode.id && (isPlaying$ | async)">Pause</span>
+          <span *ngIf="(currentEpisode$ | async)?.id === episode.id && !(isPlaying$ | async)">Resume</span>
+          <span *ngIf="(currentEpisode$ | async)?.id !== episode.id">Play</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

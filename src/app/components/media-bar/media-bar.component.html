@@ -1,0 +1,29 @@
+<div class="media-bar" *ngIf="currentEpisode$ | async as episode">
+  <div class="episode-info">
+    <img *ngIf="episode.imageUrl" [src]="episode.imageUrl" [alt]="episode.title" class="episode-image">
+    <div class="episode-details">
+      <h3>{{ episode.title }}</h3>
+      <p>{{ episode.description | slice:0:100 }}{{ episode.description.length > 100 ? '...' : '' }}</p>
+    </div>
+  </div>
+
+  <div class="player-controls">
+    <button class="play-pause-button" (click)="togglePlayPause()">
+      <span *ngIf="isPlaying$ | async">⏸️</span>
+      <span *ngIf="!(isPlaying$ | async)">▶️</span>
+    </button>
+
+    <div class="progress-container">
+      <div class="time-display">
+        <span>{{ (currentTime$ | async) || 0 | formatTime }}</span>
+        <span>{{ (duration$ | async) || 0 | formatTime }}</span>
+      </div>
+      <input type="range" 
+             class="progress-bar" 
+             [value]="(currentTime$ | async) || 0"
+             [max]="(duration$ | async) || 0"
+             (input)="seekTo($event)"
+             (change)="seekTo($event)">
+    </div>
+  </div>
+</div> 
