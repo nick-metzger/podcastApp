@@ -3,21 +3,20 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: #041E42;
-  border-top: 2px solid #C8102E;
-  padding: 15px;
+  background-color: #ffffff;
+  padding: 1rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  color: #B9975B;
+  justify-content: space-between;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 
   .episode-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 1rem;
     flex: 1;
-    max-width: 50%;
+    min-width: 0;
 
     .episode-image {
       width: 60px;
@@ -27,19 +26,24 @@
     }
 
     .episode-details {
+      flex: 1;
+      min-width: 0;
+
       h3 {
-        margin: 0 0 5px 0;
-        font-size: 1em;
+        margin: 0;
+        font-size: 1rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
       p {
-        margin: 0;
-        font-size: 0.8em;
-        color: #B9975B;
-        opacity: 0.8;
+        margin: 0.25rem 0 0;
+        font-size: 0.875rem;
+        color: #666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -47,30 +51,20 @@
   .player-controls {
     display: flex;
     align-items: center;
-    gap: 20px;
-    flex: 1;
-    max-width: 50%;
+    gap: 1rem;
+    flex: 2;
 
     .play-pause-button {
-      background: #C8102E;
-      color: #B9975B;
+      background: none;
       border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 1.5rem;
       cursor: pointer;
-      transition: all 0.2s;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.2s;
 
       &:hover {
-        background: #B9975B;
-        color: #041E42;
-      }
-
-      span {
-        font-size: 1.2em;
+        background-color: rgba(0, 0, 0, 0.05);
       }
     }
 
@@ -78,20 +72,20 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 0.25rem;
 
       .time-display {
         display: flex;
         justify-content: space-between;
-        font-size: 0.8em;
-        color: #B9975B;
+        font-size: 0.75rem;
+        color: #666;
       }
 
       .progress-bar {
         width: 100%;
         height: 4px;
         -webkit-appearance: none;
-        background: #B9975B;
+        background: #e0e0e0;
         border-radius: 2px;
         outline: none;
 
@@ -99,13 +93,83 @@
           -webkit-appearance: none;
           width: 12px;
           height: 12px;
-          background: #C8102E;
+          background: #2196f3;
           border-radius: 50%;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: background 0.2s;
 
           &:hover {
-            background: #B9975B;
+            background: #1976d2;
+          }
+        }
+
+        &::-moz-range-thumb {
+          width: 12px;
+          height: 12px;
+          background: #2196f3;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: background 0.2s;
+
+          &:hover {
+            background: #1976d2;
+          }
+        }
+      }
+    }
+
+    .volume-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 150px;
+
+      .mute-button {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+
+      .volume-bar {
+        flex: 1;
+        height: 4px;
+        -webkit-appearance: none;
+        background: #e0e0e0;
+        border-radius: 2px;
+        outline: none;
+
+        &::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 12px;
+          height: 12px;
+          background: #2196f3;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: background 0.2s;
+
+          &:hover {
+            background: #1976d2;
+          }
+        }
+
+        &::-moz-range-thumb {
+          width: 12px;
+          height: 12px;
+          background: #2196f3;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: background 0.2s;
+
+          &:hover {
+            background: #1976d2;
           }
         }
       }

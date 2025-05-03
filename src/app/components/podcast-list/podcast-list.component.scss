@@ -1,15 +1,17 @@
-A.podcast-list {
+.podcast-list-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+}
 
-  h1 {
+.podcast-list {
+  h2 {
     color: #B9975B;
     margin-bottom: 2rem;
     text-align: center;
   }
 
-  .podcasts {
+  .podcast-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
@@ -36,81 +38,40 @@ A.podcast-list {
       box-shadow: 0 6px 24px rgba(0,0,0,0.18);
       border-color: #C8102E;
       background: #06204d;
-      .play-icon {
-        opacity: 1;
-        transform: scale(1.2);
-      }
     }
 
-    .podcast-image-wrapper {
-      position: relative;
+    img {
       width: 160px;
       height: 160px;
       margin-top: 1.5rem;
       margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
       border-radius: 8px;
-      background: #0a1a33;
-    }
-
-    .podcast-image {
-      width: 160px;
-      height: 160px;
-      max-width: 100%;
-      max-height: 100%;
       object-fit: cover;
-      border-radius: 8px;
-      display: block;
-      background: #0a1a33;
-      border: 5px solid red !important;
-      background: yellow !important;
     }
 
-    .play-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      font-size: 3rem;
+    h3 {
       color: #B9975B;
-      background: rgba(4, 30, 66, 0.7);
-      border-radius: 50%;
-      padding: 0.3em 0.45em 0.3em 0.5em;
-      pointer-events: none;
-      opacity: 0.85;
-      transition: opacity 0.2s, transform 0.2s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    }
-
-    .podcast-info {
-      padding: 1rem;
-      color: #B9975B;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.2rem;
       text-align: center;
+    }
 
-      h2 {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.2rem;
-      }
-
-      p {
-        margin: 0;
-        font-size: 0.9rem;
-        line-height: 1.4;
-      }
+    p {
+      color: #B9975B;
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      text-align: center;
+      padding: 0 1rem 1rem;
     }
   }
 }
 
-.podcast-detail {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  .podcast-header {
-    text-align: center;
+.episode-list {
+  .episode-list-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-bottom: 2rem;
 
     .back-button {
@@ -119,7 +80,6 @@ A.podcast-list {
       color: #B9975B;
       font-size: 1.2rem;
       cursor: pointer;
-      margin-bottom: 1rem;
       padding: 0.5rem 1rem;
       border-radius: 4px;
       transition: background-color 0.2s;
@@ -129,27 +89,13 @@ A.podcast-list {
       }
     }
 
-    .podcast-image {
-      width: 200px;
-      height: 200px;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
+    h2 {
       color: #B9975B;
-      margin: 0 0 1rem 0;
-    }
-
-    p {
-      color: #B9975B;
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.6;
+      margin: 0;
     }
   }
 
-  .episodes {
+  .episode-grid {
     display: grid;
     gap: 2rem;
   }
@@ -161,16 +107,19 @@ A.podcast-list {
     display: flex;
     gap: 1.5rem;
     padding: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 
-    .episode-image {
-      flex: 0 0 200px;
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+    }
 
-      img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: 4px;
-      }
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 4px;
     }
 
     .episode-info {
@@ -182,7 +131,7 @@ A.podcast-list {
         font-size: 1.2rem;
       }
 
-      .episode-description {
+      p {
         margin: 0 0 1rem 0;
         line-height: 1.6;
       }
@@ -190,40 +139,92 @@ A.podcast-list {
       .episode-meta {
         display: flex;
         gap: 1rem;
-        margin-bottom: 1rem;
         font-size: 0.9rem;
-
-        .date, .duration {
-          color: #B9975B;
-        }
       }
+    }
 
-      .play-button {
-        background: #B9975B;
-        color: #041E42;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background-color 0.2s;
+    .play-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #B9975B;
 
-        &:hover {
-          background-color: adjust-color(#B9975B, $lightness: -10%);
-        }
+      .playing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #B9975B;
+        border-radius: 50%;
+        animation: pulse 1.5s infinite;
       }
     }
   }
 }
 
-.loading, .error {
+.error-message {
   text-align: center;
   padding: 2rem;
+  color: #C8102E;
+
+  button {
+    background: #C8102E;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+
+    &:hover {
+      background: darken(#C8102E, 10%);
+    }
+  }
+}
+
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  text-align: center;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   color: #B9975B;
 }
 
-.error {
-  color: #C8102E;
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(185, 151, 91, 0.1);
+  border-radius: 50%;
+  border-top-color: #B9975B;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 768px) {

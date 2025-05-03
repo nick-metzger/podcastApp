@@ -5,13 +5,15 @@ import { Podcast, Episode } from '../../models/podcast.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AudioPlayerService } from '../../services/audio-player.service';
 import { Observable, Subscription } from 'rxjs';
+import { loadingAnimation } from '../../animations/loading.animation';
 
 @Component({
   selector: 'app-podcast-list',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './podcast-list.component.html',
-  styleUrls: ['./podcast-list.component.scss']
+  styleUrls: ['./podcast-list.component.scss'],
+  animations: [loadingAnimation]
 })
 export class PodcastListComponent implements OnInit, OnDestroy {
   podcasts: Podcast[] = [];
@@ -76,7 +78,6 @@ export class PodcastListComponent implements OnInit, OnDestroy {
       if (podcast) {
         this.selectedPodcast = podcast;
         this.episodes = await this.podcastService.fetchEpisodes(podcast);
-        console.log('Episodes loaded:', this.episodes);
         this.cdRef.detectChanges();
       } else {
         this.selectedPodcast = null;
@@ -133,6 +134,14 @@ export class PodcastListComponent implements OnInit, OnDestroy {
       // Reload the podcast list
       this.loadPodcasts();
     }
+  }
+
+  loadEpisodes(podcast: Podcast) {
+    this.podcastService.getPodcastById(podcast.id).then(podcast => {
+      if (podcast) {
+        this.episodes = podcast.episodes;
+      }
+    });
   }
 }
 

@@ -11,14 +11,21 @@ export class AudioPlayerService {
   private currentEpisodeSubject = new BehaviorSubject<Episode | null>(null);
   private currentTimeSubject = new BehaviorSubject<number>(0);
   private durationSubject = new BehaviorSubject<number>(0);
+  private volumeSubject = new BehaviorSubject<number>(1); // Default volume is 1 (100%)
 
   currentEpisode$ = this.currentEpisodeSubject.asObservable();
   isPlaying$ = this.isPlayingSubject.asObservable();
   currentTime$ = this.currentTimeSubject.asObservable();
   duration$ = this.durationSubject.asObservable();
+  volume$ = this.volumeSubject.asObservable();
 
   constructor() {
     this.setupAudioListeners();
+    // Load saved volume from localStorage if available
+    const savedVolume = localStorage.getItem('podcastVolume');
+    if (savedVolume) {
+      this.setVolume(parseFloat(savedVolume));
+    }
   }
 
   private setupAudioListeners(): void {
@@ -54,6 +61,19 @@ export class AudioPlayerService {
     if (!isNaN(time)) {
       this.audio.currentTime = time;
     }
+  }
+
+  setVolume(volume: number): void {
+    // Ensure volume is between 0 and 1
+    const normalizedVolume = Math.max(0, Math.min(1, volume));
+    this.audio.volume = normalizedVolume;
+    this.volumeSubject.next(normalizedVolume);
+    // Save volume preference
+    localStorage.setItem('podcastVolume', normalizedVolume.toString());
+  }
+
+  toggleMute(): void {
+    this.audio.muted = !this.audio.muted;
   }
 
   formatTime(seconds: number): string {

@@ -1,49 +1,67 @@
 {
-  "hash": "6825bd89",
-  "configHash": "596b9c82",
+  "hash": "dbba0ad0",
+  "configHash": "285d7373",
   "lockfileHash": "f3abc44f",
-  "browserHash": "333a7384",
+  "browserHash": "aa075c89",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "8791ba19",
+      "fileHash": "8526d644",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "403ab98a",
+      "fileHash": "73fcfadc",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "0cc2a4ea",
+      "fileHash": "9f04bc5d",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "6870ff8c",
+      "fileHash": "01feaa5b",
       "needsInterop": false
     },
     "rss-parser": {
       "src": "../../../../../../node_modules/rss-parser/index.js",
       "file": "rss-parser.js",
-      "fileHash": "36ce2291",
+      "fileHash": "40015413",
       "needsInterop": true
     },
     "rxjs": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "ba0a90f5",
+      "fileHash": "5e31d420",
+      "needsInterop": false
+    },
+    "@angular/animations": {
+      "src": "../../../../../../../node_modules/@angular/animations/fesm2022/animations.mjs",
+      "file": "@angular_animations.js",
+      "fileHash": "71ac11e1",
+      "needsInterop": false
+    },
+    "@angular/platform-browser/animations": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/animations.mjs",
+      "file": "@angular_platform-browser_animations.js",
+      "fileHash": "550f7f38",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-QAXKS6TF": {
-      "file": "chunk-QAXKS6TF.js"
+    "chunk-TL7D3VEZ": {
+      "file": "chunk-TL7D3VEZ.js"
+    },
+    "chunk-JS53376S": {
+      "file": "chunk-JS53376S.js"
+    },
+    "chunk-AUCMIFLP": {
+      "file": "chunk-AUCMIFLP.js"
     },
     "chunk-ONWIZY6Q": {
       "file": "chunk-ONWIZY6Q.js"

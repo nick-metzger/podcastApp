@@ -17,12 +17,15 @@ export class MediaBarComponent implements OnInit {
   isPlaying$: Observable<boolean>;
   currentTime$: Observable<number>;
   duration$: Observable<number>;
+  volume$: Observable<number>;
+  isMuted = false;
 
   constructor(private audioPlayer: AudioPlayerService) {
     this.currentEpisode$ = this.audioPlayer.currentEpisode$;
     this.isPlaying$ = this.audioPlayer.isPlaying$;
     this.currentTime$ = this.audioPlayer.currentTime$;
     this.duration$ = this.audioPlayer.duration$;
+    this.volume$ = this.audioPlayer.volume$;
   }
 
   ngOnInit(): void {}
@@ -40,5 +43,17 @@ export class MediaBarComponent implements OnInit {
     if (input) {
       this.audioPlayer.seekTo(Number(input.value));
     }
+  }
+
+  setVolume(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input) {
+      this.audioPlayer.setVolume(Number(input.value));
+    }
+  }
+
+  toggleMute() {
+    this.isMuted = !this.isMuted;
+    this.audioPlayer.toggleMute();
   }
 } 

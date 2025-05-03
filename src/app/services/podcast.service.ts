@@ -28,7 +28,14 @@ interface FeedItem {
   enclosure?: {
     url?: string;
   };
-  imageUrl?: string;
+  itunesImage?: {
+    $?: {
+      href: string;
+    };
+  };
+  itunes?: {
+    image?: string;
+  };
   duration?: string;
 }
 
@@ -39,9 +46,9 @@ export class PodcastService {
   private parser = new Parser<FeedItem>({
     customFields: {
       item: [
-        ['itunes:image', 'imageUrl', { keepArray: false }],
         ['itunes:duration', 'duration', { keepArray: false }],
-        ['enclosure', 'enclosure', { keepArray: false }]
+        ['enclosure', 'enclosure', { keepArray: false }],
+        ['itunes:image', 'itunesImage', { keepArray: false }]
       ]
     }
   });
@@ -95,10 +102,8 @@ export class PodcastService {
   }
 
   async getPodcastById(id: string): Promise<Podcast | undefined> {
-    console.log(`Getting podcast by ID: ${id}`);
     const podcast = this.podcasts.find(p => p.id === id);
     if (podcast && podcast.episodes.length === 0) {
-      console.log(`Fetching episodes for podcast: ${podcast.title}`);
       await this.fetchEpisodes(podcast);
     }
     return podcast;
@@ -106,7 +111,6 @@ export class PodcastService {
 
   async fetchEpisodes(podcast: Podcast): Promise<Episode[]> {
     try {
-      console.log(`Fetching feed from: ${podcast.feedUrl}`);
       const feedUrl = encodeURIComponent(podcast.feedUrl);
       const response = await fetch(`${this.corsProxy}${feedUrl}`);
       
@@ -118,10 +122,8 @@ export class PodcastService {
       const feed = await this.parser.parseString(feedText);
       
       const episodes = feed.items.map(item => {
-        // Get the best available image URL
-        const imageUrl = item['itunes:image']?.['$']?.href || 
-                        item['imageUrl'] || 
-                        podcast.imageUrl;
+        // Get the episode image URL from either itunesImage or itunes.image
+        const episodeImageUrl = item['itunesImage']?.['$']?.href || item['itunes']?.image;
 
         // Clean up the description by removing HTML tags and metadata
         const description = this.stripHtmlTags(item['content'] || item['description'] || '')
@@ -130,7 +132,7 @@ export class PodcastService {
           .trim();
 
         // Format the duration if available
-        const duration = item['duration'] ? this.formatDuration(parseInt(item['duration'])) : '';
+        const duration = item['duration'] ? this.formatDuration(item['duration']) : '';
 
         // Format the publication date
         const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString() : '';
@@ -141,7 +143,7 @@ export class PodcastService {
           description: description,
           pubDate: pubDate,
           audioUrl: item.enclosure?.url || '',
-          imageUrl: imageUrl,
+          imageUrl: episodeImageUrl || podcast.imageUrl, // Use episode image if available, otherwise fall back to podcast image
           duration: duration
         };
       });
@@ -156,23 +158,43 @@ export class PodcastService {
     }
   }
 
-  private formatDuration(seconds: number): string {
-    if (!seconds) return '';
+  private formatDuration(duration: string): string {
+    if (!duration) return '';
+    
+    // Handle HH:MM:SS or MM:SS format
+    if (duration.includes(':')) {
+      const parts = duration.split(':');
+      if (parts.length === 3) {
+        // HH:MM:SS format
+        const [hours, minutes, seconds] = parts.map(Number);
+        let formatted = '';
+        if (hours > 0) formatted += `${hours}h `;
+        if (minutes > 0) formatted += `${minutes}m `;
+        if (seconds > 0 || formatted === '') formatted += `${seconds}s`;
+        return formatted.trim();
+      } else if (parts.length === 2) {
+        // MM:SS format
+        const [minutes, seconds] = parts.map(Number);
+        let formatted = '';
+        if (minutes > 0) formatted += `${minutes}m `;
+        if (seconds > 0 || formatted === '') formatted += `${seconds}s`;
+        return formatted.trim();
+      }
+    }
+    
+    // Fallback to seconds if not in time format
+    const seconds = parseInt(duration);
+    if (isNaN(seconds)) return '';
+    
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
     
-    let duration = '';
-    if (hours > 0) {
-      duration += `${hours}h `;
-    }
-    if (minutes > 0) {
-      duration += `${minutes}m `;
-    }
-    if (remainingSeconds > 0 || duration === '') {
-      duration += `${remainingSeconds}s`;
-    }
-    return duration.trim();
+    let formatted = '';
+    if (hours > 0) formatted += `${hours}h `;
+    if (minutes > 0) formatted += `${minutes}m `;
+    if (remainingSeconds > 0 || formatted === '') formatted += `${remainingSeconds}s`;
+    return formatted.trim();
   }
 
   private stripHtmlTags(html: string): string {
