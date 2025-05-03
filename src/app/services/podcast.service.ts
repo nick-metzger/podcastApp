@@ -123,17 +123,26 @@ export class PodcastService {
                         item['imageUrl'] || 
                         podcast.imageUrl;
 
-        // Clean up the description by removing HTML tags
-        const description = this.stripHtmlTags(item['content'] || item['description'] || '');
+        // Clean up the description by removing HTML tags and metadata
+        const description = this.stripHtmlTags(item['content'] || item['description'] || '')
+          .replace(/^\s*\d+\s*$/, '') // Remove standalone numbers (duration)
+          .replace(/^(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun),\s+\d+\s+\w+\s+\d+\s+\d+:\d+:\d+\s+[+-]\d+/, '') // Remove pubDate
+          .trim();
+
+        // Format the duration if available
+        const duration = item['duration'] ? this.formatDuration(parseInt(item['duration'])) : '';
+
+        // Format the publication date
+        const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString() : '';
 
         return {
           id: item.guid || item.link || '',
           title: item.title || '',
           description: description,
-          pubDate: item.pubDate || '',
+          pubDate: pubDate,
           audioUrl: item.enclosure?.url || '',
           imageUrl: imageUrl,
-          duration: item['duration'] || ''
+          duration: duration
         };
       });
       
@@ -147,12 +156,23 @@ export class PodcastService {
     }
   }
 
-  private formatDuration(length: number): string {
-    if (!length) return '00:00';
+  private formatDuration(seconds: number): string {
+    if (!seconds) return '';
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
     
-    const minutes = Math.floor(length / 60);
-    const seconds = length % 60;
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    let duration = '';
+    if (hours > 0) {
+      duration += `${hours}h `;
+    }
+    if (minutes > 0) {
+      duration += `${minutes}m `;
+    }
+    if (remainingSeconds > 0 || duration === '') {
+      duration += `${remainingSeconds}s`;
+    }
+    return duration.trim();
   }
 
   private stripHtmlTags(html: string): string {

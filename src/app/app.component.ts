@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { MediaBarComponent } from './components/media-bar/media-bar.component';
 
 @Component({
@@ -10,5 +10,11 @@ import { MediaBarComponent } from './components/media-bar/media-bar.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'podcast-library';
+  title = 'Lincoln\'s Podcast Library';
+
+  constructor(private router: Router) {}
+
+  goHome() {
+    this.router.navigate(['/']);
+  }
 }
