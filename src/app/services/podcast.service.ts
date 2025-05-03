@@ -79,6 +79,14 @@ export class PodcastService {
       imageUrl: 'https://img.apmcdn.org/45d17222acd5858012c2bbbc9e7a64da43e4d0fc/square/d5bfea-20230203-brains-on-podcast-art-bou-1400.jpg',
       feedUrl: 'https://feeds.publicradio.org/public_feeds/brains-on',
       episodes: []
+    },
+    {
+      id: '5',
+      title: 'Eons: Surviving Deep Time',
+      description: 'A PBS Digital Studios production that explores the greatest mysteries of natural history. From the dawn of the dinosaurs to downtown Los Angeles, Eons covers what we know — and what we still don\'t know — about the history of life on Earth.',
+      imageUrl: 'https://f.prxu.org/885/images/723f6d31-e5a1-4994-a1d6-60cca1b4e25d/EONSPODS2_CoverArt_Simplified.png',
+      feedUrl: 'https://eonspodcast.pbs.org',
+      episodes: []
     }
   ];
 
